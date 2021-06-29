@@ -13,6 +13,7 @@
         if (response.status === 'connected') {
           // Logged into your webpage and Facebook.
           testAPI()
+
         } else {
           // Not logged into your webpage or we are unable to tell.
           document.getElementById('status').innerHTML = 'Please log ' + 'into this webpage.'
@@ -44,16 +45,23 @@
       function testAPI() {
         // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
         console.log('Welcome!  Fetching your information.... ')
-        FB.api('/me', function (response) {
+        FB.api('/me', 'GET', { fields: 'last_name,first_name,name,email,hometown' }, function (response) {
           console.log('Successful login for: ' + response.name)
           document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!'
+        })
+      }
+      var id = '10221493669784483'
+
+      function getEmail() {
+        FB.api(`/${id}`, 'GET', { "fields": 'email' }, function (response) {
+          console.log(response.email, 'email')
         })
       }
     </script>
 
     <!-- The JS SDK Login Button -->
 
-    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"> </fb:login-button>
+    <fb:login-button scope="public_profile,email,user_hometown" onlogin="checkLoginState();"> </fb:login-button>
 
     <div id="status"></div>
 
